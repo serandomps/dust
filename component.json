@@ -4,6 +4,6 @@
     "dependencies": {},
     "local": [],
     "scripts": ["dust.js", "helpers.js", "index.js"],
-    "templates" : [],
+    "templates": [],
     "main": "index.js"
 }

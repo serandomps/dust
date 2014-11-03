@@ -13,15 +13,15 @@ module.exports = function (helpers) {
         //args[1] = base.push(args[1]);
         return render.apply(dust, args);
     };
-/*
+    /*
 
-    dust.renderSource = function () {
-        var args = Array.prototype.slice.call(arguments);
-        var base = dust.makeBase(helpers);
-        //args[1] = base.push(args[1]);
-        return renderSource.apply(dust, args);
-    };
-*/
+     dust.renderSource = function () {
+     var args = Array.prototype.slice.call(arguments);
+     var base = dust.makeBase(helpers);
+     //args[1] = base.push(args[1]);
+     return renderSource.apply(dust, args);
+     };
+     */
 
     dust.stream = function () {
         var args = Array.prototype.slice.call(arguments);
