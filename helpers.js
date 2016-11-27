@@ -1,7 +1,7 @@
 module.exports = {
     slice: function (chunk, context, bodies, params) {
         return chunk.map(function (chunk) {
-            var ctx = context.current(),
+            var ctx = params.context || context.current(),
                 length = ctx.length,
                 start = parseInt(params.start, 10) || 0,
                 end = parseInt(params.end, 10) || length,
