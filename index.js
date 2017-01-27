@@ -5,6 +5,14 @@ module.exports = function (helpers) {
     var stream = dust.stream;
 
     dust.helpers = require('./helpers');
+    var filters = require('./filters');
+    var name;
+    for (name in filters) {
+        if (!filters.hasOwnProperty(name)) {
+            continue;
+        }
+        dust.filters[name] = filters[name];
+    }
     helpers = helpers || {};
 
     dust.render = function () {
