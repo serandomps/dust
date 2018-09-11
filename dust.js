@@ -79,11 +79,7 @@ dust.register = function(name, tmpl) {
 
 dust.render = function(name, context, callback) {
   var chunk = new Stub(callback).head;
-  try {
-    dust.load(name, chunk, Context.wrap(context, name)).end();
-  } catch (err) {
-    dust.onError(err, chunk);
-  }
+  dust.load(name, chunk, Context.wrap(context)).end();
 };
 
 dust.stream = function(name, context) {
