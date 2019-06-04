@@ -15,6 +15,14 @@ module.exports = {
             chunk.end();
         });
     },
+    is: function (chunk, context, bodies, params) {
+        return chunk.map(function (chunk) {
+            if (sera.is(params.group)) {
+                chunk.render(bodies.block, context);
+            }
+            chunk.end();
+        });
+    },
     dump: function (chunk, context) {
         console.log(context);
         return chunk.write(JSON.stringify(context));
