@@ -18,8 +18,14 @@ module.exports = {
     is: function (chunk, context, bodies, params) {
         return chunk.map(function (chunk) {
             if (sera.is(params.group)) {
-                chunk.render(bodies.block, context);
+                chunk = chunk.render(bodies.block, context);
+                return chunk.end();
             }
+            var elze = bodies['else'];
+            if (!elze) {
+                return chunk.end();
+            }
+            chunk = chunk.render(elze, context);
             chunk.end();
         });
     },
