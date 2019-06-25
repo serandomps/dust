@@ -17,16 +17,32 @@ module.exports = {
     },
     is: function (chunk, context, bodies, params) {
         return chunk.map(function (chunk) {
-            if (sera.is(params.group)) {
-                chunk = chunk.render(bodies.block, context);
+            var elze;
+            if (params.group) {
+                if (sera.is(params.group)) {
+                    chunk = chunk.render(bodies.block, context);
+                    return chunk.end();
+                }
+                elze = bodies['else'];
+                if (!elze) {
+                    return chunk.end();
+                }
+                chunk = chunk.render(elze, context);
                 return chunk.end();
             }
-            var elze = bodies['else'];
-            if (!elze) {
+            if (params.user) {
+                if (sera.user && sera.user.id === params.user) {
+                    chunk = chunk.render(bodies.block, context);
+                    return chunk.end();
+                }
+                elze = bodies['else'];
+                if (!elze) {
+                    return chunk.end();
+                }
+                chunk = chunk.render(elze, context);
                 return chunk.end();
             }
-            chunk = chunk.render(elze, context);
-            chunk.end();
+            return chunk.end();
         });
     },
     dump: function (chunk, context) {
