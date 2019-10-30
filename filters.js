@@ -6,5 +6,8 @@ module.exports = {
     },
     year: function (value) {
         return moment(value).year();
+    },
+    ago: function (value) {
+        return moment(value).fromNow();
     }
 };
