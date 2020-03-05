@@ -48,5 +48,12 @@ module.exports = {
     dump: function (chunk, context) {
         console.log(context);
         return chunk.write(JSON.stringify(context));
-    }
+    },
+    cdn: function (chunk, context, bodies, params) {
+        return chunk.map(function (chunk) {
+            var path = params.path;
+            chunk.write(sera.cdn + path);
+            chunk.end();
+        });
+    },
 };
