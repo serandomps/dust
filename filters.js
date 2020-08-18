@@ -12,5 +12,8 @@ module.exports = {
     },
     ago: function (value) {
         return moment(value).fromNow();
+    },
+    js: function (value) {
+        return html_sanitize(value);
     }
 };
