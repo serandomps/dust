@@ -14,6 +14,6 @@ module.exports = {
         return moment(value).fromNow();
     },
     js: function (value) {
-        return html_sanitize(value);
+        return utils.sanitize(value);
     }
 };
