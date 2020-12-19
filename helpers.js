@@ -9,10 +9,20 @@ module.exports = {
                 size = parseInt(params.size, 10) || length,
                 i = start,
                 c = 0;
-            while (i < end && c++ < count) {
-                chunk.render(bodies.block, context.push(ctx.slice(i, (i += size))));
-            }
-            chunk.end();
+
+            async.whilst(function () {
+                return i < end && c++ < count;
+            }, function (whilstDone) {
+                chunk.map(function (chunk) {
+                    chunk.render(bodies.block, context.push(ctx.slice(i, (i += size))));
+                    whilstDone();
+                }).end();
+            }, function (err) {
+                if (err) {
+                    return chunk.setError(err);
+                }
+                chunk.end();
+            });
         });
     },
     is: function (chunk, context, bodies, params) {
@@ -50,10 +60,14 @@ module.exports = {
         return chunk.write(JSON.stringify(context));
     },
     cdn: function (chunk, context, bodies, params) {
-        return chunk.map(function (chunk) {
-            var path = params.path;
-            chunk.write(sera.cdn + path);
-            chunk.end();
+        var cursor = chunk.map(function (chunk) {
+            setTimeout(function () {
+                var path = params.path;
+                chunk.write(sera.cdn + path);
+                chunk.end();
+                cursor.end();
+            })
         });
+        return cursor;
     },
 };
