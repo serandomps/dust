@@ -10,18 +10,22 @@ module.exports = {
                 i = start,
                 c = 0;
 
+            var current = chunk;
+
             async.whilst(function () {
                 return i < end && c++ < count;
             }, function (whilstDone) {
-                chunk.map(function (chunk) {
-                    chunk.render(bodies.block, context.push(ctx.slice(i, (i += size))));
-                    whilstDone();
-                }).end();
+                current = current.map(function (branch) {
+                    setTimeout(function () {
+                        branch.render(bodies.block, context.push(ctx.slice(i, (i += size)))).end();
+                        whilstDone();
+                    });
+                });
             }, function (err) {
                 if (err) {
                     return chunk.setError(err);
                 }
-                chunk.end();
+                current.end();
             });
         });
     },
@@ -60,14 +64,10 @@ module.exports = {
         return chunk.write(JSON.stringify(context));
     },
     cdn: function (chunk, context, bodies, params) {
-        var cursor = chunk.map(function (chunk) {
-            setTimeout(function () {
-                var path = params.path;
-                chunk.write(sera.cdn + path);
-                chunk.end();
-                cursor.end();
-            })
+        return chunk.map(function (chunk) {
+            var path = params.path;
+            chunk.write(sera.cdn + path);
+            chunk.end();
         });
-        return cursor;
     },
 };
